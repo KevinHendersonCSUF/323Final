@@ -37,6 +37,8 @@ closeparerr = False
 hassemi = False
 readdollar = False
 hascomma = False
+colon = False
+override = False
 with open("final24.txt", 'r') as f:
     stack = []
     stack.append("$")
@@ -44,8 +46,11 @@ with open("final24.txt", 'r') as f:
     for line in f:
 
         for word in line.split():
+            print("do I ever activate this??")
             read = False
             while read == False:
+                if override == True:
+                    break
                 match stack[-1]:
                     case 'p':
                         stack.pop()
@@ -262,211 +267,262 @@ with open("final24.txt", 'r') as f:
                                     stack.append(x)
                             case _:
                                 pass #for now
-                        for w in line.split(): #NEED TO ITERATE THROUGH EVERY LETTER, NOT WORD
-                            readword = False
-                            print(w)
-                            while readword == False:
-                                print(stack)
-                                print("looping!")
-                                match stack[-1]:
-                                    case "dec":                   
-                                        stack.pop()
-                                        match w:
-                                            case 'a':
-                                                for x in reversed(table["dec"]['a']):
-                                                    stack.append(x)
-                                            case 'b':
-                                                for x in reversed(table["dec"]['b']):
-                                                    stack.append(x)
-                                            case 'c':
-                                                for x in reversed(table["dec"]['c']):
-                                                    stack.append(x)
-                                            case 'd':
-                                                for x in reversed(table["dec"]['d']):
-                                                    stack.append(x)
-                                            case 'l':
-                                                for x in reversed(table["dec"]['l']):
-                                                    stack.append(x)
-                                            case 'f':
-                                                for x in reversed(table["dec"]['f']):
-                                                    stack.append(x)
-                                            case _:
-                                                pass #for now
-                                    case 'I':
-                                        stack.pop()
-                                        match w:
-                                            case 'a':
-                                                for x in reversed(table['I']['a']):
-                                                    stack.append(x)
-                                            case 'b':
-                                                for x in reversed(table['I']['b']):
-                                                    stack.append(x)
-                                            case 'c':
-                                                for x in reversed(table['I']['c']):
-                                                    stack.append(x)
-                                            case 'd':
-                                                for x in reversed(table['I']['d']):
-                                                    stack.append(x)
-                                            case 'l':
-                                                for x in reversed(table['I']['l']):
-                                                    stack.append(x)
-                                            case 'f':
-                                                for x in reversed(table['I']['f']):
-                                                    stack.append(x)
-                                            case _:
-                                                pass #for now
-                                    case 'L':
-                                        stack.pop()
-                                        print(w)
-                                        match w:
-                                            case 'a':
-                                                for x in reversed(table['L']['a']):
-                                                    stack.append(x)
-                                            case 'b':
-                                                for x in reversed(table['L']['b']):
-                                                    stack.append(x)
-                                            case 'c':
-                                                for x in reversed(table['L']['c']):
-                                                    stack.append(x)
-                                            case 'd':
-                                                for x in reversed(table['L']['d']):
-                                                    stack.append(x)
-                                            case 'l':
-                                                for x in reversed(table['L']['l']):
-                                                    stack.append(x)
-                                            case 'f':
-                                                for x in reversed(table['L']['f']):
-                                                    stack.append(x)
-                                            case _:
-                                                pass #for now
-                                    case "X":
-                                        print("x!")
-                                        stack.pop()
-                                        match w:
-                                            case '1':
-                                                for x in reversed(table['X']['1']):
-                                                    stack.append(x)
-                                            case '2':
-                                                for x in reversed(table['X']['2']):
-                                                    stack.append(x)
-                                            case '3':
-                                                for x in reversed(table['X']['3']):
-                                                    stack.append(x)
-                                            case '4':
-                                                for x in reversed(table['X']['4']):
-                                                    stack.append(x)
-                                            case '5':
-                                                for x in reversed(table['X']['5']):
-                                                    stack.append(x)
-                                            case '6':
-                                                for x in reversed(table['X']['6']):
-                                                    stack.append(x)
-                                            case '7':
-                                                for x in reversed(table['X']['7']):
-                                                    stack.append(x)
-                                            case '8':
-                                                for x in reversed(table['X']['8']):
-                                                    stack.append(x)
-                                            case '9':
-                                                for x in reversed(table['X']['9']):
-                                                    stack.append(x)
-                                            case '0':
-                                                for x in reversed(table['X']['0']):
-                                                    stack.append(x)
-                                            case 'a':
-                                                for x in reversed(table['X']['a']):
-                                                    stack.append(x)
-                                            case 'b':
-                                                for x in reversed(table['X']['b']):
-                                                    stack.append(x)
-                                            case 'c':
-                                                for x in reversed(table['X']['c']):
-                                                    stack.append(x)
-                                            case 'd':
-                                                for x in reversed(table['X']['d']):
-                                                    stack.append(x)
-                                            case 'l':
-                                                for x in reversed(table['X']['l']):
-                                                    stack.append(x)
-                                            case 'f':
-                                                for x in reversed(table['X']['f']):
-                                                    stack.append(x)
-                                            case ';':
-                                                stack.append(table['X'][';'][0])
-                                            case ',':
-                                                stack.append(table['X'][','][0])
-                                                hascomma = True
-                                            case ':':
-                                                stack.append(table['X'][':'][0])
-                                            case '=':
-                                                stack.append(table['X']['='][0])
-                                            case '+':
-                                                stack.append(table['X']['+'][0])
-                                            case '-':
-                                                stack.append(table['X']['-'][0])
-                                            case '*':
-                                                stack.append(table['X']['*'][0])
-                                            case '/':
-                                                stack.append(table['X']['/'][0])
-                                            case ')':
-                                                stack.append(table['X'][')'][0])
-                                            case '$':
-                                                stack.append(table['X']['$'][0])
-                                            case _:
-                                                pass
-                                    case "digit":
-                                        stack.pop()
-                                        match word[char]:
-                                            case '1':
-                                                for x in reversed(table['digit']['1']):
-                                                    stack.append(x)
-                                            case '2':
-                                                for x in reversed(table['digit']['2']):
-                                                    stack.append(x)
-                                            case '3':
-                                                for x in reversed(table['digit']['3']):
-                                                    stack.append(x)
-                                            case '4':
-                                                for x in reversed(table['digit']['4']):
-                                                    stack.append(x)
-                                            case '5':
-                                                for x in reversed(table['digit']['5']):
-                                                    stack.append(x)
-                                            case '6':
-                                                for x in reversed(table['digit']['6']):
-                                                    stack.append(x)
-                                            case '7':
-                                                for x in reversed(table['digit']['7']):
-                                                    stack.append(x)
-                                            case '8':
-                                                for x in reversed(table['digit']['8']):
-                                                    stack.append(x)
-                                            case '9':
-                                                for x in reversed(table['digit']['9']):
-                                                    stack.append(x)
-                                            case '0':
-                                                for x in reversed(table['digit']['0']):
-                                                    stack.append(x)
-                                    case 'λ':
-                                        #might cause problems - MAYBE NOT?
-                                        stack.pop()
-                                    case ',':
-                                        stack.pop()
-                                        readword = True
-                                        comerr = True
-                                        
-                                    case _:
-                                        readword = True
-                                        stack.pop()
-                                        print(stack)
                         
+                        for w in line.split(): #NEED TO ITERATE THROUGH EVERY LETTER, NOT WORD
+                            #readword = False
+                            #while readword == False: might not need these two
+                            for char in range(len(w)):
+                                readword = False
+                                readchar = False
+                                while readchar == False:
+                                    print(stack)
+                                    print("reading:", w[char])
+                                    print("pop:", stack[-1])
+                                    match stack[-1]:
+                                        case "dec":                   
+                                            stack.pop()
+                                            match w[char]:
+                                                case 'a':
+                                                    for x in reversed(table["dec"]['a']):
+                                                        stack.append(x)
+                                                        print(stack)#test
+                                                case 'b':
+                                                    for x in reversed(table["dec"]['b']):
+                                                        stack.append(x)
+                                                case 'c':
+                                                    for x in reversed(table["dec"]['c']):
+                                                        stack.append(x)
+                                                case 'd':
+                                                    for x in reversed(table["dec"]['d']):
+                                                        stack.append(x)
+                                                case 'l':
+                                                    for x in reversed(table["dec"]['l']):
+                                                        stack.append(x)
+                                                case 'f':
+                                                    for x in reversed(table["dec"]['f']):
+                                                        stack.append(x)
+                                                case _:
+                                                    stack.append('I')
+                                                    # pass #for now
+                                        case 'I':
+                                            stack.pop()
+                                            match w[char]:
+                                                case 'a':
+                                                    for x in reversed(table['I']['a']):
+                                                        stack.append(x)
+                                                        print(stack)#test
+                                                case 'b':
+                                                    for x in reversed(table['I']['b']):
+                                                        stack.append(x)
+                                                case 'c':
+                                                    for x in reversed(table['I']['c']):
+                                                        stack.append(x)
+                                                case 'd':
+                                                    for x in reversed(table['I']['d']):
+                                                        stack.append(x)
+                                                case 'l':
+                                                    for x in reversed(table['I']['l']):
+                                                        stack.append(x)
+                                                case 'f':
+                                                    for x in reversed(table['I']['f']):
+                                                        stack.append(x)
+                                                case _:
+                                                    stack.append('X')
+                                                    # pass #for now
+                                        case 'L':
+                                            stack.pop()
+
+                                            match w[char]:
+                                                case 'a':
+                                                    for x in reversed(table['L']['a']):
+                                                        stack.append(x)
+                                                        print(stack)#test
+                                                case 'b':
+                                                    for x in reversed(table['L']['b']):
+                                                        stack.append(x)
+                                                case 'c':
+                                                    for x in reversed(table['L']['c']):
+                                                        stack.append(x)
+                                                case 'd':
+                                                    for x in reversed(table['L']['d']):
+                                                        stack.append(x)
+                                                case 'l':
+                                                    for x in reversed(table['L']['l']):
+                                                        stack.append(x)
+                                                case 'f':
+                                                    for x in reversed(table['L']['f']):
+                                                        stack.append(x)
+                                                case _:
+                                                    pass #for now
+                                        case "X":
+                                            stack.pop()
+                                            match w[char]:
+                                                case '1':
+                                                    for x in reversed(table['X']['1']):
+                                                        stack.append(x)
+                                                case '2':
+                                                    for x in reversed(table['X']['2']):
+                                                        stack.append(x)
+                                                case '3':
+                                                    for x in reversed(table['X']['3']):
+                                                        stack.append(x)
+                                                case '4':
+                                                    for x in reversed(table['X']['4']):
+                                                        stack.append(x)
+                                                case '5':
+                                                    for x in reversed(table['X']['5']):
+                                                        stack.append(x)
+                                                case '6':
+                                                    for x in reversed(table['X']['6']):
+                                                        stack.append(x)
+                                                case '7':
+                                                    for x in reversed(table['X']['7']):
+                                                        stack.append(x)
+                                                case '8':
+                                                    for x in reversed(table['X']['8']):
+                                                        stack.append(x)
+                                                case '9':
+                                                    for x in reversed(table['X']['9']):
+                                                        stack.append(x)
+                                                case '0':
+                                                    for x in reversed(table['X']['0']):
+                                                        stack.append(x)
+                                                case 'a':
+                                                    for x in reversed(table['X']['a']):
+                                                        stack.append(x)
+                                                case 'b':
+                                                    for x in reversed(table['X']['b']):
+                                                        stack.append(x)
+                                                case 'c':
+                                                    for x in reversed(table['X']['c']):
+                                                        stack.append(x)
+                                                case 'd':
+                                                    for x in reversed(table['X']['d']):
+                                                        stack.append(x)
+                                                case 'l':
+                                                    for x in reversed(table['X']['l']):
+                                                        stack.append(x)
+                                                case 'f':
+                                                    for x in reversed(table['X']['f']):
+                                                        stack.append(x)
+                                                case ';':
+                                                    stack.append(table['X'][';'][0])
+                                                case ',':
+                                                    stack.append(table['X'][','][0])
+                                                    hascomma = True
+                                                    #readchar = True
+                                                case ':':
+                                                    stack.append(table['X'][':'][0])
+                                                    print("colon here!")
+                                                    colon = True
+                                                case '=':
+                                                    stack.append(table['X']['='][0])
+                                                case '+':
+                                                    stack.append(table['X']['+'][0])
+                                                case '-':
+                                                    stack.append(table['X']['-'][0])
+                                                case '*':
+                                                    stack.append(table['X']['*'][0])
+                                                case '/':
+                                                    stack.append(table['X']['/'][0])
+                                                case ')':
+                                                    stack.append(table['X'][')'][0])
+                                                case '$':
+                                                    stack.append(table['X']['$'][0])
+                                                case _:
+                                                    pass
+                                        case "digit":
+                                            stack.pop()
+                                            match w[char]:
+                                                case '1':
+                                                    for x in reversed(table['digit']['1']):
+                                                        stack.append(x)
+                                                case '2':
+                                                    for x in reversed(table['digit']['2']):
+                                                        stack.append(x)
+                                                case '3':
+                                                    for x in reversed(table['digit']['3']):
+                                                        stack.append(x)
+                                                case '4':
+                                                    for x in reversed(table['digit']['4']):
+                                                        stack.append(x)
+                                                case '5':
+                                                    for x in reversed(table['digit']['5']):
+                                                        stack.append(x)
+                                                case '6':
+                                                    for x in reversed(table['digit']['6']):
+                                                        stack.append(x)
+                                                case '7':
+                                                    for x in reversed(table['digit']['7']):
+                                                        stack.append(x)
+                                                case '8':
+                                                    for x in reversed(table['digit']['8']):
+                                                        stack.append(x)
+                                                case '9':
+                                                    for x in reversed(table['digit']['9']):
+                                                        stack.append(x)
+                                                case '0':
+                                                    for x in reversed(table['digit']['0']):
+                                                        stack.append(x)
+                                        case 'λ':
+                                            #might cause problems - MAYBE NOT?
+                                            stack.pop()
+                                            stack.pop()
+                                            readchar = True
+                                        # case ',':
+                                        #     stack.pop()
+                                        #     readchar = True
+                                        #     if hascomma != True:
+                                        #         comerr = True #might need to change
+                                        case ":":
+                                            stack.pop()
+                                            readchar = True
+                                        case "type":
+                                            stack.pop()
+                                            readword = True
+                                            print(line[-2])
+                                            if w == "integer":
+                                                
+                                                if line[-2] != ";":
+                                                    semierr = True
+                                                break
+                                            
+                                            else:
+                                                interr == True
+                                                if line[-2] != ";":
+                                                    semierr = True
+                                                break
+                                        case _:
+                                            #readword = True
+                                            stack.pop()
+                                            readchar = True
+                                            print('tessst')
+                                            print(w)
+                                if readword == True:
+                                    print('this one here')
+                                    print(w)
+                                    
+                                    break
+                                if w == ";":
+                                    print("got it!")
+                                    read = True
+                                    break
+                                #FOR ME TOMORROW (OR TODAY I GUESS), BEGIN CASE IS NOT STARTING ON BEGIN LINE
+                                #IT HAS SOMETHING TO DO WITH READCHAR, AND HOW IT READS : I THINK
+                        # if read == True:
+                        #     print("broken")
+                        #     override = True
+                        #     break
+            
                     case "begin":
-                        print("here next")
+                        print(stack)
+                        print(line)
                         stack.pop()
                         read = True
-                    case "sl":
-                        # print(stack)
-                        break
+                    # case "sl":
+                    #     print("here now")
+                    #     print(stack)
+                    #     break
                         
                     case "end":
                         pass #end loop somehow
