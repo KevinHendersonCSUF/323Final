@@ -1,4 +1,4 @@
-# Enable logging for debugging
+
 
 import logging
 
@@ -21,13 +21,19 @@ def predictive_parse(tokens, parsing_table, start_symbol):
         print("TOKEN LOOP!!!")
         while stack[-1] != '$':
             if readtok == True:
+                print("readtok block")
+                # errors.append(f"Unexpected token: {token} after {top}")
+                # logging.error(f"Unexpected token: {token} after {top}")
+                # return "Error detected in parsing"
                 readtok = False
                 break
             print(stack) #FOR TESTING
             print("token is:", token)#FOR TESTING
             top = stack.pop()
             print("top of stack:", top)
-            if token == 'end':
+            if token == tokens[-1]:
+                if tokens[-1] != "end":
+                    errors.append(f"{"end"} is expected")
                 top = stack.pop()
                 logging.info(f"Matched token: {token}")
                 print(stack) #for testing
@@ -37,20 +43,29 @@ def predictive_parse(tokens, parsing_table, start_symbol):
                 print("test") #FOR TESTING
                 logging.info(f"Matched token: {token}")
                 break  # Match terminal
+            if top == 'P' and token != "program":
+                stack.extend(reversed(parsing_table[top]["program"]))
+                logging.info(f"Expanded {top} -> {parsing_table[top]["program"]}")
+                print(stack)
+                continue
             elif top in parsing_table:  # Non-terminal
                 if top in reserved_words and token != top: #flags if any reserved words besides integer and print are missing
                     errors.append(f"{top} is expected")
+                # if top == 'P' and token != "program":
+                #     stack.extend(reversed(parsing_table[top]["program"]))
+                #     logging.info(f"Expanded {top} -> {parsing_table[top]["program"]}")
+                #     print(stack)
+
+                #     continue
                 if token in parsing_table[top] and token in reserved_words:
-                    print("!")
+                    print("RAHHHHHH")
                     #token[0] added by me
+                    
                     stack.extend(reversed(parsing_table[top][token]))
                     logging.info(f"Expanded {top} -> {parsing_table[top][token]}")
                 else:
                     for x in token:
-                        if x == 'e':
-                                errors.append(f"Unexpected token: {token} after {top}")
-                                logging.error(f"Unexpected token: {token} after {top}")
-                                return "Error detected in parsing"
+
                         if token == '“value=”,':
                             break
                         readword = False
@@ -119,20 +134,29 @@ def predictive_parse(tokens, parsing_table, start_symbol):
                                 
                                 logging.info(f"Matched token: {token}")
                                 readword = True
+
                     readtok = True
 
             else: #FOR TESTING
-                print("!!!")
-                errors.append(f"Unexpected stack top: {top}")
-                logging.error(f"Unexpected stack top: {top}")
-                return "Error detected in parsing"
+                errors.append(f"{top} is expected")
+                print("readtok2")
+                if tokens[3] != 'a':
+                    pass
+                else:
+                    readtok = True
 
     if len(errors) == 0:
         stack.pop()
-        return "Ready to compile"
+        print("Ready to compile")
+        return
     else:
-        for x in range(len(errors)):
-            print(errors[x])
+        print("this is the list of errors")
+        print("-------------------------------------------")
+        for x in errors:
+            if errors.count(x) > 1:
+                errors.pop(errors.index(x))
+            print(x)
+        return
 
 # The parsing table
 parsing_table = {
@@ -186,5 +210,5 @@ parsing_table = {
 input_string = read_input_file("final24.txt")
 tokens = tokenize(input_string)
 result = predictive_parse(tokens, parsing_table, "P")
-print(result)
+
 
