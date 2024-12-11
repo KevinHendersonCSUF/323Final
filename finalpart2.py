@@ -1,3 +1,5 @@
+#Theo Gonong, Kevin Henderson, Anthony Le
+#Final Project part 2
 # Translated program in Python
 a = 3
 b2a = 14
