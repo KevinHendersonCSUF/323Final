@@ -19,7 +19,7 @@ def predictive_parse(tokens, parsing_table, start_symbol):
     for token in tokens:
         
         print("TOKEN LOOP!!!")
-        while stack:
+        while stack[-1] != '$':
             if readtok == True:
                 readtok = False
                 break
@@ -27,6 +27,12 @@ def predictive_parse(tokens, parsing_table, start_symbol):
             print("token is:", token)#FOR TESTING
             top = stack.pop()
             print("top of stack:", top)
+            if token == 'end':
+                top = stack.pop()
+                logging.info(f"Matched token: {token}")
+                print(stack) #for testing
+                continue
+
             if top == token:
                 print("test") #FOR TESTING
                 logging.info(f"Matched token: {token}")
@@ -41,24 +47,51 @@ def predictive_parse(tokens, parsing_table, start_symbol):
                     logging.info(f"Expanded {top} -> {parsing_table[top][token]}")
                 else:
                     for x in token:
+                        if x == 'e':
+                                errors.append(f"Unexpected token: {token} after {top}")
+                                logging.error(f"Unexpected token: {token} after {top}")
+                                return "Error detected in parsing"
+                        if token == '“value=”,':
+                            break
                         readword = False
                         # if top == "as": #test line
                         #     break
                         while readword == False:
                             print("character:", x)
                             print("top of stack:", top)
-                            if x == 'b' and top == "Q": #test line due to Q grammar issue
-                                errors.append(f"Unexpected token: {token} after {top}")
-                                logging.error(f"Unexpected token: {token} after {top}")
-                                return "Error detected in parsing"
+                            # if top == "R" and x == 'c': #test line due to Q grammar issue
+                            # #     stack.pop()
+                            # #     stack.pop()
+                            #     #MAYBE UNCOMMENT
+                            #     errors.append(f"Unexpected token: {token} after {top}")
+                            #     logging.error(f"Unexpected token: {token} after {top}")
+                            #     return "Error detected in parsing"
 
                             if top == "blank": #THIS LINE IS WHERE THE ISSUES START I THINK
                                 #POTENTIALLY, FALSE READING 3 OR R HERE BECAUSE OF SIGN GRAMMAR(READS 3 ON BLANK INSTEAD OF MOVING TO DIGIT TO READ 3)
                                 print("blankpop")#FOR TESTING
                                 print(stack) #FOR TESTING
                                 top = stack.pop()
-                                readword = True #CAUSING SOME FALSE READINGS LATER ON IN SL!!!
-                                
+                                if top == 'Q':
+                                    if x in parsing_table[top]:
+                                        stack.extend(reversed(parsing_table[top][x]))
+                                        logging.info(f"Expanded {top} ->{x} {parsing_table[top][x]}")
+                                        top = stack.pop()
+                                    
+
+                                else:
+                                    readword = True #CAUSING SOME FALSE READINGS LATER ON IN SL!!!
+                                # readword = True #CAUSING SOME FALSE READINGS LATER ON IN SL!!!
+                                if top == "R": #test line due to Q grammar issue
+                                    if x == "*":
+                                        stack.extend(reversed(parsing_table[top][x]))
+                                        logging.info(f"Expanded {top} ->{x} {parsing_table[top][x]}")
+                                        top = stack.pop()
+                                    else:
+                                        top = stack.pop()
+                                        top = stack.pop()
+                                        print("R test")
+
                                 # print(x)
                                 # print(top) #FOR TESTING
                             elif x in parsing_table[top]:
@@ -94,10 +127,12 @@ def predictive_parse(tokens, parsing_table, start_symbol):
                 logging.error(f"Unexpected stack top: {top}")
                 return "Error detected in parsing"
 
-    if not errors:
+    if len(errors) == 0:
+        stack.pop()
         return "Ready to compile"
     else:
-        return errors
+        for x in range(len(errors)):
+            print(errors[x])
 
 # The parsing table
 parsing_table = {
